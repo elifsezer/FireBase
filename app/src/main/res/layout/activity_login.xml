@@ -7,18 +7,23 @@
         android:layout_height="match_parent"
         android:id="@+id/drawer_layout"
         tools:context=".LoginActivity">
+
 <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:minHeight="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:fitsSystemWindows="true"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:fitsSystemWindows="true"/>
+    </LinearLayout>
     <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -28,7 +33,7 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            app:layout_constraintHorizontal_bias="0.498" android:layout_marginTop="116dp"
             app:layout_constraintTop_toTopOf="parent"/>
     <EditText
             android:layout_width="0dp"
@@ -62,11 +67,17 @@
             android:text="Sisteme Kayıt Ol"
             android:layout_width="0dp"
             android:layout_height="22dp"
-            android:id="@+id/tvKayitol" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:fontFamily="sans-serif-light" android:typeface="monospace" android:textStyle="bold"
+            android:id="@+id/tvKayitol"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-light"
+            android:typeface="monospace"
+            android:textStyle="bold"
             android:textAlignment="center"
-            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/btnGirisYap"/>
     <Button
             android:text="Giriş Yap"
@@ -100,14 +111,18 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintVertical_bias="0.265"
             android:visibility="invisible"/>
-    <android.support.design.widget.NavigationView
-            android:id="@+id/navigation_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:menu="@menu/drawer_menu"/>
-
 </android.support.constraint.ConstraintLayout>
 
-
-
+    <LinearLayout
+            android:id="@+id/drawer_header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="start">
+        <android.support.design.widget.NavigationView
+                android:id="@+id/navigation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:menu="@menu/drawer_menu"/>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
