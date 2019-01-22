@@ -23,13 +23,11 @@ class RegisterActivity : Activity() {
                 } else {
                     FancyToast.makeText(this, "Şifreler Eşleşmiyor", FancyToast.LENGTH_SHORT, FancyToast.ERROR, true)
                         .show()
-
                 }
             } else {
                 FancyToast.makeText(this, "Lütfen Boş Alanları Doldurunuz", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true)
                     .show()
             }
-
         }
     }
 
@@ -41,28 +39,27 @@ class RegisterActivity : Activity() {
                 override fun onComplete(p0: Task<AuthResult>) {
                     if (p0.isSuccessful) {
                         Toast.makeText(this@RegisterActivity, "Üye Kayıt Edildi."+" "+FirebaseAuth.getInstance().currentUser?.uid, Toast.LENGTH_SHORT).show()
+                        //kullanıcı sisteme kayıt yapıldıktan sonra sistemden atılmadan önce mail gönderimi saglandı.
                         onayMailiGonder()
                         FirebaseAuth.getInstance().signOut()
                     } else {
                         Toast.makeText(this@RegisterActivity, "Üye Kayıt Edilirken Sorun Oluştu."+" "+p0.exception?.message, Toast.LENGTH_SHORT)
                             .show()
                     }
-
                 }
             })
         progressBarGizle()
-
     }
 
     private fun onayMailiGonder() {
-
         //hangi kullanıcıya mail attıgımızı bilmek için.oankiüye aslında.
         var kullanici=FirebaseAuth.getInstance().currentUser
         if (kullanici!=null)
         {
-            //onaylama maili ve linki atılıyor.
+            //kullanıcıya onaylama maili ve linki atılıyor. void:geriye dönüşü yok.
             kullanici.sendEmailVerification().addOnCompleteListener(object: OnCompleteListener<Void>{
                 override fun onComplete(p0: Task<Void>) {
+                    //mail gönderimi başarılı ise mail kutusuna gitmeli diye mesaj verildi.
                     if (p0.isSuccessful)
                     {
                         FancyToast.makeText(this@RegisterActivity, "Mail Kutunuzu Kontrol edip. Maili onaylayınız.", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true)
