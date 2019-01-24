@@ -60,14 +60,23 @@ class LoginActivity : AppCompatActivity() {
         }
 
         initMyAuthStateListener()
+
         tvKayitol.setOnClickListener {
             var intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+
+        //burada tıklanan textlerde ilgili fragmente yönlendirme yapılır.
         tvOnayMailiniTekrarGonder.setOnClickListener {
             var dialogGoster=OnayMailTekrarFragment()
             dialogGoster.show(supportFragmentManager,"gosterdialog")
         }
+
+        tvSifreTekrar.setOnClickListener {
+            var dialogSifreyiTekrarGonder=SifremiUnuttumDialogFragment()
+            dialogSifreyiTekrarGonder.show(supportFragmentManager,"sifreyenileme")
+        }
+
         //anonim classın içinde olduğumuz için direk this diyemiyoruz. O yüzdedn this@LoginActivity kullandık.
         btnGirisYap.setOnClickListener {
             if (etMail1.text.isNotEmpty() && etSifre1.text.isNotEmpty()) {
@@ -119,13 +128,10 @@ class LoginActivity : AppCompatActivity() {
             override fun onAuthStateChanged(p0: FirebaseAuth) {
                 //currentuser ise kullanıcı giriş yapmış kullanıcının içi dolu.
                 var kullanici = p0.currentUser
-
                 if (kullanici != null) {
                     //mail adresi onaylanmış ve giriş yapılmış ise mainactivitye yönlendirme.
-
                     if (kullanici.isEmailVerified) {
                         FancyToast.makeText(this@LoginActivity, "Mail onaylanmış giriş yapabilir", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, true).show()
-
                         var intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -134,6 +140,7 @@ class LoginActivity : AppCompatActivity() {
                         //başarısız girişte sistem atmak için
                     }
                 }
+
             }
         }
     }

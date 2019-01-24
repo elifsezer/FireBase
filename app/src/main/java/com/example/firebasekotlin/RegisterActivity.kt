@@ -13,18 +13,25 @@ import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : Activity() {
 
+    var kullanici=FirebaseAuth.getInstance().currentUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+
         btnKayit.setOnClickListener {
             if (etMail1.text.isNotEmpty() && etSifre1.text.isNotEmpty() && etSifreTekrar.text.isNotEmpty()) {
                 if (etSifre1.text.toString().equals(etSifreTekrar.text.toString())) {
                     yeniUyeKayit(etMail1.text.toString(), etSifre1.text.toString())
-                } else {
+                }
+                else {
                     FancyToast.makeText(this, "Şifreler Eşleşmiyor", FancyToast.LENGTH_SHORT, FancyToast.ERROR, true)
                         .show()
                 }
-            } else {
+            }
+
+            else
+            {
                 FancyToast.makeText(this, "Lütfen Boş Alanları Doldurunuz", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true)
                     .show()
             }
@@ -42,10 +49,12 @@ class RegisterActivity : Activity() {
                         //kullanıcı sisteme kayıt yapıldıktan sonra sistemden atılmadan önce mail gönderimi saglandı.
                         onayMailiGonder()
                         FirebaseAuth.getInstance().signOut()
-                    } else {
+                    }
+                    else {
                         Toast.makeText(this@RegisterActivity, "Üye Kayıt Edilirken Sorun Oluştu."+" "+p0.exception?.message, Toast.LENGTH_SHORT)
                             .show()
                     }
+
                 }
             })
         progressBarGizle()

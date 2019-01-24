@@ -66,10 +66,8 @@ class OnayMailTekrarFragment : DialogFragment() {
                 if (task.isSuccessful) {
                     onayMailiniTekrarGonder()
                     dialog.dismiss()
-
                 } else {
                     FancyToast.makeText(activity, "Email veya Şifre Hatalı..", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true).show()
-
                 }
             }
     }
@@ -84,7 +82,6 @@ class OnayMailTekrarFragment : DialogFragment() {
                     //mail gönderimi başarılı ise mail kutusuna gitmeli diye mesaj verildi.
                     if (p0.isSuccessful)
                     {
-                       onayMailiniTekrarGonder()
                         FancyToast.makeText(mContext, "Mail kutunuzu kontrol edin.", FancyToast.LENGTH_SHORT, FancyToast.ERROR, true)
                             .show()
                     }
