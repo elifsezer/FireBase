@@ -1,13 +1,16 @@
 package com.example.firebasekotlin
 
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.android.synthetic.main.activity_kullanici_ayarlari.*
+import org.w3c.dom.Text
 
 class KullaniciAyarlariActivity : AppCompatActivity() {
     var kullanici=FirebaseAuth.getInstance().currentUser!!
@@ -92,6 +95,11 @@ class KullaniciAyarlariActivity : AppCompatActivity() {
                 FancyToast.makeText(this@KullaniciAyarlariActivity, "Güncellemeler İçin Şifrenizi Yazmalısınız.." ,FancyToast.LENGTH_SHORT, FancyToast.WARNING, true).show()
 
             }
+        }
+
+        imgSifreGoster.setOnClickListener {
+                tvDetaySifre.inputType= (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+
         }
 
     }
