@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
 
         //anonim classın içinde olduğumuz için direk this diyemiyoruz. O yüzdedn this@LoginActivity kullandık.
         btnGirisYap.setOnClickListener {
-            if (etMail1.text.isNotEmpty() && etSifre1.text.isNotEmpty()) {
+            if (etMail1.text.isNotEmpty() && etSifre1.text!!.isNotEmpty()) {
                 progressBarGoster()
                 //kullanıcıyı sisteme dahil ettik.
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(etMail1.text.toString(), etSifre1.text.toString())
