@@ -12,38 +12,35 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/tvDetayName"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
             android:fontFamily="sans-serif-light"
             android:hint="Henüz Tanımlanmadı"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/imgKullaniciResmi"/>
 
 
     <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="24dp"
             app:layout_constraintStart_toEndOf="@+id/textView1"
             android:layout_marginStart="8dp"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/colorAccent"
             app:layout_constraintTop_toTopOf="@+id/textView1"
             app:layout_constraintBottom_toBottomOf="@+id/textView1"
-            android:id="@+id/txtDetaySifre">
+            android:id="@+id/txtDetaySifre" android:padding="0dp" android:hint="Şifrenizi Giriniz"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/imgKullaniciResmi">
 
         <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="0dp"
                 android:inputType="textPassword"
-                android:id="@+id/tvDetaySifre"/>
+                android:id="@+id/tvDetaySifre" android:padding="0dp"/>
     </android.support.design.widget.TextInputLayout>
     <Button
-            android:text="Kaydet"
+            android:text="Değişiklikleri Kaydet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnDegisiklikleriKaydet"
@@ -54,11 +51,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/colorAccent"
             app:layout_constraintTop_toTopOf="@+id/btnSifreGonder"
-            app:layout_constraintBottom_toBottomOf="@+id/btnSifreGonder"/>
+            app:layout_constraintBottom_toBottomOf="@+id/btnSifreGonder" android:layout_marginTop="8dp"/>
 
-    <Button
+    <TextView
             android:text="Şifre Sıfırla"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnSifreGonder"
             android:fontFamily="sans-serif-light"
@@ -66,47 +63,41 @@
             android:typeface="monospace"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/colorAccent"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/btnSifreyiUnuttumGonder"
+            app:layout_constraintEnd_toStartOf="@+id/btnDegisiklikleriKaydet"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/txtDetaySifre"/>
-    <Button
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/txtDetaySifre"
+            android:textStyle="bold" android:textColor="@android:color/background_dark" android:textSize="18sp"/>
+    <TextView
             android:text="Mail/Şifre Güncelle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnSifreveMailGuncelle"
             android:fontFamily="sans-serif-light"
             android:textAllCaps="false"
             android:typeface="monospace"
-            android:background="@color/colorAccent"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="116dp"
             app:layout_constraintEnd_toStartOf="@+id/btnDegisiklikleriKaydet"
-            app:layout_constraintStart_toEndOf="@+id/btnSifreGonder" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/btnDegisiklikleriKaydet"
-            app:layout_constraintBottom_toBottomOf="@+id/btnDegisiklikleriKaydet"/>
-    <TextView
-            android:text="Kullanıcı Adı:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:fontFamily="sans-serif-medium"
-            android:typeface="monospace" android:textStyle="bold"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvDetayName"
-            app:layout_constraintBottom_toBottomOf="@+id/tvDetayName"/>
-    <TextView
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnSifreGonder"
+            app:layout_constraintBottom_toBottomOf="@+id/btnDegisiklikleriKaydet"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0" android:textStyle="bold"
+            android:textColor="@android:color/background_dark" android:textSize="18sp"/>
+    <ImageView
             android:text="Şuanki Şifre:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/textView1"
+            app:srcCompat="@drawable/ic_action_lock_closed"
             android:fontFamily="sans-serif-medium"
             android:typeface="monospace"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/tvDetayName"/>
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/tvDetayEmail"/>
     <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -137,7 +128,8 @@
                 android:typeface="monospace" android:fontFamily="sans-serif-medium"
                 android:layout_marginTop="16dp"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp" android:textStyle="bold"
+                android:textColor="@android:color/background_dark"/>
         <TextView
                 android:text="Yeni Şifre"
                 android:layout_width="wrap_content"
@@ -145,7 +137,8 @@
                 android:id="@+id/textView5" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp" android:textSize="18sp" android:typeface="monospace"
                 android:fontFamily="sans-serif-medium" android:layout_marginTop="32dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView4" android:textStyle="bold"
+                android:textColor="@android:color/background_dark"/>
         <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -162,7 +155,7 @@
                 android:layout_height="wrap_content"
                 app:passwordToggleEnabled="true"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="24dp"
                 app:layout_constraintTop_toTopOf="@+id/textView5"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 android:id="@+id/txtSifreGuncelle"
@@ -175,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:id="@+id/etSifreGuncelle"
-                    android:hint="hint"/>
+                    android:layout_margin="0dp" android:padding="0dp"/>
         </android.support.design.widget.TextInputLayout>
         <Button
                 android:text="Şifre Güncelle"
@@ -193,5 +186,54 @@
                 app:layout_constraintHorizontal_bias="0.049"
                 android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/txtSifreGuncelle"/>
     </android.support.constraint.ConstraintLayout>
+    <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/ic_action_user"
+            android:id="@+id/imageView3"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/>
+    <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp" app:srcCompat="@drawable/ic_local_phone"
+            android:id="@+id/imageView5"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/tvDetayName"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/tvDetayNumara"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="@+id/imageView5"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView5" android:hint="Telefon Numarısını Giriniz"
+            app:layout_constraintVertical_bias="0.0" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/imgKullaniciResmi"/>
+    <ImageView
+            android:layout_height="35dp" app:srcCompat="@drawable/ic_local_post_office"
+            android:id="@+id/imageView6"
+            android:layout_width="35dp" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/tvDetayNumara"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/tvDetayEmail"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@+id/imageView6"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6" android:hint="Email adresi"
+            app:layout_constraintEnd_toStartOf="@+id/imgKullaniciResmi" android:layout_marginEnd="8dp"/>
+    <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp" app:srcCompat="@drawable/ic_account_box"
+            android:id="@+id/imgKullaniciResmi" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@+id/btnDegisiklikleriKaydet"
+            android:layout_marginBottom="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@+id/tvDetayName" android:layout_marginStart="8dp"/>
 
 </android.support.constraint.ConstraintLayout>
