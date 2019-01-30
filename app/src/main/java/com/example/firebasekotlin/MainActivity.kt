@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         tvDetaySifre.text=FirebaseAuth.getInstance().currentUser?.displayName.toString()
         tvUserId.text=FirebaseAuth.getInstance().currentUser?.uid.toString()
         tvEmail.text=FirebaseAuth.getInstance().currentUser?.email.toString()
+        tvUserTelefon.text=FirebaseAuth.getInstance().currentUser?.phoneNumber
+
     }
 
     private fun initAuthStateListener() {
