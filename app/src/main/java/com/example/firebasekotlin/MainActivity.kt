@@ -71,7 +71,14 @@ class MainActivity : AppCompatActivity() {
             {
                 var intent=Intent(this@MainActivity,KullaniciAyarlariActivity::class.java)
                 startActivity(intent)
+                return true
 
+            }
+            R.id.menuSohbet ->
+            {
+                var intent=Intent(this@MainActivity,SohbetActivity::class.java)
+                startActivity(intent)
+                return true
             }
         }
         return super.onOptionsItemSelected(item)

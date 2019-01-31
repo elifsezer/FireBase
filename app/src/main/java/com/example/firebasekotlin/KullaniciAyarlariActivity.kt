@@ -8,6 +8,7 @@ import android.os.AsyncTask
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.text.InputType
@@ -15,6 +16,9 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -22,10 +26,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.shashank.sony.fancytoastlib.FancyToast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_kullanici_ayarlari.*
+import kotlinx.android.synthetic.main.activity_register.*
 import org.w3c.dom.Text
+import java.io.ByteArrayOutputStream
+import java.lang.Exception
 
 class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProfilResimListener {
 
@@ -33,6 +42,7 @@ class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProf
     var izinlerVerildi=false
     var galeridengelenUrI:Uri?=null
     var kameradanGelenBitmap:Bitmap?=null
+    val MEGABYTE=100000.toDouble()
 
 
     override fun getResimYolu(resimPath: Uri?) {
@@ -47,25 +57,6 @@ class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProf
         //Picasso.get().load(bitmap).into(imgKullaniciResmi)
     }
 
-    inner class  BackgroundResimCompress : AsyncTask<Uri,Void,ByteArray>()
-    {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-        override fun doInBackground(vararg p0: Uri?): ByteArray {
-
-        }
-
-        override fun onProgressUpdate(vararg values: Void?) {
-            super.onProgressUpdate(*values)
-        }
-
-        override fun onPostExecute(result: ByteArray?) {
-            super.onPostExecute(result)
-        }
-
-    }
 
 
     var kullanici = FirebaseAuth.getInstance().currentUser!!
@@ -146,6 +137,14 @@ class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProf
                     .child("telefon")
                     .setValue(tvDetayNumara.text.toString())
             }
+
+            if(galeridengelenUrI!= null)
+            {
+                fotografCompressed(galeridengelenUrI!!)
+            }else if(kameradanGelenBitmap!=null)
+            {
+                fotografCompressed(kameradanGelenBitmap!!)
+            }
         }
         btnSifreveMailGuncelle.setOnClickListener {
             if (tvDetaySifre.text.toString().isNotEmpty()) {
@@ -190,6 +189,95 @@ class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProf
 
     }
 
+    inner class  BackgroundResimCompress : AsyncTask<Uri,Double,ByteArray>
+    {
+        var myBitmap:Bitmap?=null
+        constructor() {}
+        constructor(bm:Bitmap) {
+            //kameradan resim çekilmişse
+            if (bm != null)
+            {
+                myBitmap=bm
+            }
+
+        }
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+        override fun doInBackground(vararg params: Uri?): ByteArray {
+
+            //galeriden resim seçilmiş
+            if (myBitmap== null)
+            {
+                myBitmap=MediaStore.Images.Media.getBitmap(this@KullaniciAyarlariActivity.contentResolver,params[0])
+            }
+            //bütün fotoları 1 ve 0 dönüştürcek
+            var resimBytes:ByteArray?=null
+            for (i in 1..5)
+            {
+                resimBytes=convertBitmaptoByte(myBitmap,100/i)
+                publishProgress(resimBytes!!.size.toDouble())
+            }
+            return resimBytes!!
+        }
+
+        override fun onProgressUpdate(vararg values: Double?) {
+            super.onProgressUpdate(*values)
+            Toast.makeText(this@KullaniciAyarlariActivity,"Şuanki byte: "+values[0]!!/MEGABYTE,Toast.LENGTH_SHORT).show()
+        }
+
+        private fun convertBitmaptoByte(myBitmap: Bitmap?, i: Int): ByteArray? {
+            var stream=ByteArrayOutputStream()
+            myBitmap?.compress(Bitmap.CompressFormat.JPEG,i,stream)
+            return stream.toByteArray()
+        }
+
+        override fun onPostExecute(result: ByteArray?) {
+            super.onPostExecute(result)
+            uploadResimtoFirebase(result)
+        }
+
+    }
+
+    private fun uploadResimtoFirebase(result: ByteArray?) {
+
+       progressGoster()
+        var storageReferans=FirebaseStorage.getInstance().getReference()
+        //her kullancının klasörü farklı olacak. referabs noktası oluşturuldu.
+        var resimEklenecekYer=storageReferans.child("images/users" + FirebaseAuth.getInstance().currentUser?.uid + "/profile_resim")
+
+        var uploadGorevi=resimEklenecekYer.putBytes(result!!)
+        uploadGorevi.addOnSuccessListener (object: OnSuccessListener<UploadTask.TaskSnapshot>{
+            override fun onSuccess(p0: UploadTask.TaskSnapshot?) {
+                var firebaseURL=p0?.storage?.downloadUrl
+                Toast.makeText(this@KullaniciAyarlariActivity,"Resmin yolu : "+firebaseURL.toString(),Toast.LENGTH_SHORT).show()
+                FirebaseDatabase.getInstance().reference
+                    .child("kullanici")
+                    .child(kullanici?.uid)
+                    .child("profil_resmi")
+                    .setValue(firebaseURL.toString())
+                progressGizle()
+            }
+        }).addOnFailureListener(object : OnFailureListener {
+            override fun onFailure(p0: Exception) {
+                Toast.makeText(this@KullaniciAyarlariActivity,"Resim Yüklenirken bir hata oluştu.",Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+    }
+
+    private fun fotografCompressed(galeridengelenUrI: Uri) {
+
+        var compressed=BackgroundResimCompress()
+        compressed.execute(galeridengelenUrI)
+    }
+    private fun fotografCompressed(kameradangleneUrI: Bitmap) {
+        var compressed=BackgroundResimCompress(kameradangleneUrI)
+        var uri:Uri?=null
+        compressed.execute(uri)
+    }
+
     private fun izinleriIste() {
         var izinler= arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -227,7 +315,6 @@ class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProf
 
 
         var referans=FirebaseDatabase.getInstance().reference
-
         //query 1
         var sorgu=referans.child("kullanici")
             .orderByKey()
@@ -246,7 +333,8 @@ class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProf
                     var okunanKullanici= singleSnapshot.getValue(Kullanici::class.java)
                     tvDetayName.setText(okunanKullanici?.isim)
                     tvDetayNumara.setText(okunanKullanici?.telefon)
-                    Log.e("elif","Adı : "+okunanKullanici?.isim+" Telefon: "+okunanKullanici?.telefon)
+                    Picasso.get().load(okunanKullanici?.profil_resmi).resize(100,100).into(imgKullaniciResmi)
+
                 }
             }
 
@@ -306,5 +394,15 @@ class KullaniciAyarlariActivity : AppCompatActivity(),ProfilResmiFragment.onProf
                     }
                 }
         }
+    }
+
+    fun progressGoster()
+    {
+        progressBar3.visibility=View.VISIBLE
+    }
+
+    fun progressGizle()
+    {
+        progressBar3.visibility=View.INVISIBLE
     }
 }
