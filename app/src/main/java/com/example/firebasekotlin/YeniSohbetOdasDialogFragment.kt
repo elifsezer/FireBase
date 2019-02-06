@@ -83,6 +83,7 @@ class YeniSohbetOdasDialogFragment : DialogFragment() {
                     yenisohbetOdasi.sohbetodasi_adi=etSohbetOdasiAdi.text.toString()
                     yenisohbetOdasi.sohbetodasi_id=sohbetOdasiID
 
+                    //yeni alan database eklendi.
                     ref.child("sohbet_odasi").child(sohbetOdasiID.toString()).setValue(yenisohbetOdasi)
                     
 
