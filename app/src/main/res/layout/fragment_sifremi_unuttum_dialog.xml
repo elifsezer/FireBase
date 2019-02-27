@@ -4,7 +4,7 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content"
-                                             tools:context=".SifremiUnuttumDialogFragment">
+                                             tools:context=".dialogs.SifremiUnuttumDialogFragment">
 
     <TextView
             android:layout_width="0dp"
@@ -41,7 +41,7 @@
     <Button
             android:text="Gönder"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:id="@+id/btnSifreyiUnuttumGonder"
             android:fontFamily="sans-serif-light"
             android:textAllCaps="false"
@@ -49,11 +49,9 @@
             android:layout_marginEnd="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/colorAccent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnSifreyiUnuttumIptal"
             app:layout_constraintTop_toTopOf="@+id/btnSifreyiUnuttumIptal"
-            app:layout_constraintVertical_bias="1.0" app:layout_constraintStart_toEndOf="@+id/btnSifreyiUnuttumIptal"
-            android:layout_marginStart="32dp"/>
+            app:layout_constraintStart_toEndOf="@+id/btnSifreyiUnuttumIptal"
+            android:layout_marginStart="32dp" app:layout_constraintBottom_toBottomOf="@+id/btnSifreyiUnuttumIptal"/>
 
     <Button
             android:text="İptal"
@@ -69,7 +67,8 @@
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/etSifreyiTekrarGonder" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/btnSifreyiUnuttumGonder"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"/>
 
 
 </android.support.constraint.ConstraintLayout>

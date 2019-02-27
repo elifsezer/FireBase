@@ -2,14 +2,14 @@ package com.example.firebasekotlin
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
 import android.widget.Toast
-import com.google.android.gms.auth.api.Auth
+import com.example.firebasekotlin.dialogs.OnayMailTekrarFragment
+import com.example.firebasekotlin.dialogs.SifremiUnuttumDialogFragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -58,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
             drawer_layout.closeDrawer(GravityCompat.START)
             true
         }
-
         initMyAuthStateListener()
 
         tvKayitol.setOnClickListener {
@@ -68,13 +67,13 @@ class LoginActivity : AppCompatActivity() {
 
         //burada tıklanan textlerde ilgili fragmente yönlendirme yapılır.
         tvOnayMailiniTekrarGonder.setOnClickListener {
-            var dialogGoster=OnayMailTekrarFragment()
-            dialogGoster.show(supportFragmentManager,"gosterdialog")
+            var dialogGoster = OnayMailTekrarFragment()
+            dialogGoster.show(supportFragmentManager, "gosterdialog")
         }
 
         tvSifreTekrar.setOnClickListener {
-            var dialogSifreyiTekrarGonder=SifremiUnuttumDialogFragment()
-            dialogSifreyiTekrarGonder.show(supportFragmentManager,"sifreyenileme")
+            var dialogSifreyiTekrarGonder = SifremiUnuttumDialogFragment()
+            dialogSifreyiTekrarGonder.show(supportFragmentManager, "sifreyenileme")
         }
 
         //anonim classın içinde olduğumuz için direk this diyemiyoruz. O yüzdedn this@LoginActivity kullandık.
@@ -88,21 +87,32 @@ class LoginActivity : AppCompatActivity() {
                             //gelen kullanıcının başarılı olması. kullanıcı mail ve sifresiyle sisteme giris yaptı.
                             if (p0.isSuccessful) {
                                 progressBarGizle()
-                               // FancyToast.makeText(this@LoginActivity, "Başarılı Giriş." + FirebaseAuth.getInstance().currentUser?.email, FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, true).show()
-                                if (!p0.result.user.isEmailVerified)
-                                {
+                                // FancyToast.makeText(this@LoginActivity, "Başarılı Giriş." + FirebaseAuth.getInstance().currentUser?.email, FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, true).show()
+                                if (!p0.result.user.isEmailVerified) {
                                     FirebaseAuth.getInstance().signOut()
                                 }
 
                             } else {
                                 progressBarGizle()
                                 //yazılan hatanın acıklamasını kullanıcıya gösterildi. p0 parametresiyle
-                                FancyToast.makeText(this@LoginActivity, "Hatalı Giriş." + p0.exception?.message, FancyToast.LENGTH_SHORT, FancyToast.ERROR, true).show()
+                                FancyToast.makeText(
+                                    this@LoginActivity,
+                                    "Hatalı Giriş." + p0.exception?.message,
+                                    FancyToast.LENGTH_SHORT,
+                                    FancyToast.ERROR,
+                                    true
+                                ).show()
                             }
                         }
                     })
             } else {
-                FancyToast.makeText(this@LoginActivity, "Lütfen Boş Alanları Doldurunuz.", FancyToast.LENGTH_SHORT, FancyToast.ERROR, true).show()
+                FancyToast.makeText(
+                    this@LoginActivity,
+                    "Lütfen Boş Alanları Doldurunuz.",
+                    FancyToast.LENGTH_SHORT,
+                    FancyToast.ERROR,
+                    true
+                ).show()
 
             }
         }
@@ -131,12 +141,24 @@ class LoginActivity : AppCompatActivity() {
                 if (kullanici != null) {
                     //mail adresi onaylanmış ve giriş yapılmış ise mainactivitye yönlendirme.
                     if (kullanici.isEmailVerified) {
-                        FancyToast.makeText(this@LoginActivity, "Mail onaylanmış giriş yapabilir", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, true).show()
+                        FancyToast.makeText(
+                            this@LoginActivity,
+                            "Mail onaylanmış giriş yapabilir",
+                            FancyToast.LENGTH_SHORT,
+                            FancyToast.SUCCESS,
+                            true
+                        ).show()
                         var intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        FancyToast.makeText(this@LoginActivity, "Mail adresinizi onaylayınız.", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true).show()
+                        FancyToast.makeText(
+                            this@LoginActivity,
+                            "Mail adresinizi onaylayınız.",
+                            FancyToast.LENGTH_SHORT,
+                            FancyToast.WARNING,
+                            true
+                        ).show()
                         //başarısız girişte sistem atmak için
                     }
                 }
@@ -148,6 +170,7 @@ class LoginActivity : AppCompatActivity() {
     //ilk tetiklenen onStart interface ilk atamasını burada yapacağız
     override fun onStart() {
         super.onStart()
+        //ilk atamasını burda yapıyoruz interfacein
         FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListener)
     }
 

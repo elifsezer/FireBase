@@ -1,4 +1,4 @@
-package com.example.firebasekotlin
+package com.example.firebasekotlin.model
 
 class Kullanici {
     var isim: String? = null

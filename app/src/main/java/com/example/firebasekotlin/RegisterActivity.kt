@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.example.firebasekotlin.model.Kullanici
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -19,8 +20,6 @@ class RegisterActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
-
         btnKayit.setOnClickListener {
             if (etMail1.text.isNotEmpty() && etSifre1.text.isNotEmpty() && etSifreTekrar.text.isNotEmpty()) {
                 if (etSifre1.text.toString().equals(etSifreTekrar.text.toString())) {
@@ -31,7 +30,6 @@ class RegisterActivity : Activity() {
                         .show()
                 }
             }
-
             else
             {
                 FancyToast.makeText(this, "Lütfen Boş Alanları Doldurunuz", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true)
@@ -50,14 +48,12 @@ class RegisterActivity : Activity() {
                     if (p0.isSuccessful) {
                         //kullanıcı sisteme kayıt yapıldıktan sonra sistemden atılmadan önce mail gönderimi saglandı.
                         onayMailiGonder()
-
-                        var veritabaninaeklenecekKullanici=Kullanici()
+                        var veritabaninaeklenecekKullanici= Kullanici()
                         veritabaninaeklenecekKullanici.isim=etMail1.text.toString().substring(0,etMail1.text.toString().indexOf("@"))
                         veritabaninaeklenecekKullanici.kullanici_id=FirebaseAuth.getInstance().currentUser?.uid
                         veritabaninaeklenecekKullanici.profil_resmi=""
                         veritabaninaeklenecekKullanici.telefon="123"
                         veritabaninaeklenecekKullanici.seviye="1"
-
                         FirebaseDatabase.getInstance().reference.child("kullanici")
                             .child(FirebaseAuth.getInstance().currentUser!!.uid)
                             .setValue(veritabaninaeklenecekKullanici).addOnCompleteListener { task->
@@ -73,11 +69,11 @@ class RegisterActivity : Activity() {
                         Toast.makeText(this@RegisterActivity, "Üye Kayıt Edilirken Sorun Oluştu."+" "+p0.exception?.message, Toast.LENGTH_SHORT)
                             .show()
                     }
-
                 }
             })
         progressBarGizle()
     }
+
 
     private fun onayMailiGonder() {
         //hangi kullanıcıya mail attıgımızı bilmek için.oankiüye aslında.
@@ -90,7 +86,7 @@ class RegisterActivity : Activity() {
                     //mail gönderimi başarılı ise mail kutusuna gitmeli diye mesaj verildi.
                     if (p0.isSuccessful)
                     {
-                        FancyToast.makeText(this@RegisterActivity, "Mail Kutunuzu Kontrol edip. Maili onaylayınız.", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true)
+                        FancyToast.makeText(this@RegisterActivity, "Mail kutunuzu kontrol edip maili onaylayınız.", FancyToast.LENGTH_SHORT, FancyToast.WARNING, true)
                             .show()
                     }
                     else
@@ -103,7 +99,6 @@ class RegisterActivity : Activity() {
             })
         }
     }
-
     private fun loginSayfasinaYolla()
     {
         var intent = Intent(this@RegisterActivity, LoginActivity::class.java)
@@ -112,10 +107,7 @@ class RegisterActivity : Activity() {
     private fun progressBarGoster() {
         progressBar.visibility = View.VISIBLE
     }
-
     private fun progressBarGizle() {
         progressBar.visibility = View.INVISIBLE
     }
-
-
 }
